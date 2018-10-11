@@ -81,3 +81,5 @@ int main()
     duyet (0, 0);
     return 0;
 }
+
+//code nhu kec
