@@ -34,29 +34,40 @@ pair<long long, long long> getLocation()
 }
 void printString(int n) 
 { 
-    char str[1111111]; // To store result (Excel column name)  
-    int len = n/26;
-    int i = len; // To store current index in str which is result 
+    char str[1111111]; // To store result (Excel column name) 
+    int i = 0; // To store current index in str which is result 
   
     while (n>0) 
     { 
         // Find remainder 
-        int rem = n%26;
+        int rem = n%26; 
+        int len = n/26;
         // If remainder is 0, then a 'Z' must be there in output 
         if (rem==0) 
         { 
-            str[i--] = 'Z'; 
+            str[i++] = 'Z'; 
             n = (n/26)-1; 
         } 
         else // If remainder is non-zero 
         { 
-            str[i--] = (rem-1) + 'A'; 
+            str[i++] = (rem-1) + 'A'; 
             n = n/26; 
         } 
     } 
-    str[len+1] = '\0'; 
-
-    cout<<str;
+    str[i] = '\0'; 
+  
+    // Reverse the string and print result 
+    int l = 0;
+    int r = i;
+    while((l!=r)&&(l!=--r))
+    {
+        char temp;
+        temp = str[l];
+        str[l] = str[r];
+        str[r] = temp;
+        ++l;
+    }
+    cout << str;
   
     return; 
 }
