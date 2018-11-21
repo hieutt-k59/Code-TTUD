@@ -1,9 +1,9 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int N, C;
-int x[1000000000];
+long long x[123456];
 
 void swap(double a, double b)
 {
@@ -12,7 +12,7 @@ void swap(double a, double b)
     b = temp;
 }
 
-int partion(int *p, int L, int R, int indexPivot)
+int partion(long long *p, int L, int R, int indexPivot)
 {
     int pivot = p[indexPivot];
     swap(p[indexPivot], p[R]);
@@ -28,7 +28,16 @@ int partion(int *p, int L, int R, int indexPivot)
     swap(p[storedIndex], p[R]);
     return storedIndex;
 }
-void quickSort(int *p, int L, int R)
+
+long long int getInt(){
+    char c;
+    long long int d = 0;
+    while((c=getchar()) >= '0' && c <= '9')
+        d = d*10 + (long long int)(c-48);
+    return d;
+}
+
+void quickSort(long long *p, int L, int R)
 {
     int index = (L+R)/2;
     index = partion(p, L, R,index);
@@ -36,26 +45,28 @@ void quickSort(int *p, int L, int R)
     if(index < R) quickSort(p, index+1, R);
 }
 
-int f(int S)
+bool f(long long S)
 {
     int cnt = 0;
-    int temp = x[0];
+    int cntEqual = 0;
+    long temp = x[0];
     for(int i = 1; i < N; i++)
     {
         if(x[i]-temp >= S)
         {
+            // if(x[i]-temp == S) cntEqual++;
             temp=x[i];
             cnt++;
         }
     }
-    return (cnt >= C)? 1 : 0;
+    return (cnt == C-1)? true : false;
 }
 
 main()
 {
     int t;
 
-    freopen("input.txt", "r", stdin);
+    // freopen("input.txt", "r", stdin);
     cin>>t;
     for(int testcase = 1; testcase <= t; testcase++)
     {
@@ -64,21 +75,28 @@ main()
         {
             cin>>x[i];
         }
-        quickSort(x, 0, N-1);
-        // for (int i = 0; i < N; i++) cout << x[i] << " ";
-        // cout<<endl;
-        int L = 1, R = 1000000000, ans = 0;
-        while (L <= R)
-        {
-            int M = (L + R) / 2;
-            if (f(M))
-            {
-                ans = M;
-                L = M + 1;
+        sort(x, x + N);
+        for (int i = 0; i < N; i++) cout << x[i] << " ";
+        cout<<endl;
+        long long l = 0, r = x[N - 1], mx = -1;
+        while(l < r){
+            int m = l + (r - l)/2;
+            if(f(m)){
+                if(m > mx){
+                    mx = m;
+                }
+                l = m + 1;
             }
-            else
-                R = M - 1;
+            else r = m;
         }
-        cout << ans;
+        // for(int i = 1; i <= 1000; i++)
+        // {
+        //     if(f(i)){
+        //         ans = i;
+        //     }
+        // }
+        cout << mx << endl;
+        // if(f(3)) cout << "OK";
+        // else cout << "Smt went wrong :("<<endl;
     }
 }
